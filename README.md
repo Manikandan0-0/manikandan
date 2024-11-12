@@ -81,3 +81,97 @@ void delete_front()
         printf("The DLL list is empty. \n");
         return;
     }
+    if (start->next == NULL)
+    {
+        printf("Deleted Employee SSN is %s \n\n",start->ssn);
+        free(start);
+        start = NULL;
+        return;
+    }
+    p = start;
+    start = start->next;
+    start->prev = NULL;
+    printf("Deleted Employee SSN is %s \n\n", p->ssn);
+    free(p);
+}
+
+void delete_end()
+{
+    Node *p, *q;
+    if(start == NULL)
+    {
+        printf("The DLL list is empty. \n");
+        return;
+    }
+    if(start->next == NULL)
+    {
+        printf("Deleted Employee SSN is %s \n\n",start->ssn);
+        free(start);
+        start = NULL;
+        return;
+    }
+    p = start;
+    while(p->next != NULL)
+    {
+        p = p->next;
+    }
+    q = p->prev;
+    q->next = NULL;
+    printf("Deleted Employee SSN is %s \n\n", p->ssn);
+    free(p);
+}
+
+void display()
+{
+    int n=0;
+    Node *p;
+    p = start;
+    while(p != NULL)
+    {
+        n++;
+        printf("%d. %s %s %s %s %s %s\n", n, p->ssn, p->name, p->dept, p->desig, p->salary ,p->phone);
+        p = p->next;
+    }
+}
+
+void create()
+{
+    int n;
+    printf("Enter number of Employees: ");
+    scanf("%d", &n);
+    for(int i=1; i <= n; i++)
+    {
+        printf("\nEmployee %d details\n", i);
+        insert_end();
+    }
+}
+
+int main( )
+{
+    int choice;
+    struct STRUCT
+    {
+        char *name; void (*func)();
+    } menu[] = {
+        {"Done", exit},
+        {"Create", create},
+        {"Insert front", insert_front},
+        {"Insert end", insert_end},
+        {"Delete front", delete_front},
+        {"Delete end", delete_end},
+        {"Display", display}
+    };
+    int size = sizeof(menu)/sizeof(menu[0]);
+    for(;;)
+    {
+        printf("\n-------DLL Menu-------\n");
+        for(int i=1; i < size; i++)
+        {
+            printf("%d. %s\n", i, menu[i].name);
+        }
+        printf("---------------------------------\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        menu[choice].func();
+    }
+}
